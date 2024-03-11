@@ -1,2 +1,3 @@
 /credential/*
 /node_modules/*
+.vercel
