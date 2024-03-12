@@ -22,3 +22,5 @@ api.get("/", (req, res) => {
 api.listen(port, () => {
     console.log(`[server]: Server is running at http://localhost:${port}`);
 });
+
+export default api;
