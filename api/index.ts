@@ -30,7 +30,7 @@ api.get("/", (req: Request, res: Response) => {
     access_type: 'offline',
     scope: scopes
   });
-  res.send("Express + TypeScript Server\n firebase collections: " + db.listCollections() + "\n oauth url: " + url);
+  res.send("firebase collections: " + db.listCollections() + "\n oauth url: " + url);
 
 });
 api.listen(port, () => {
