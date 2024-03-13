@@ -1,14 +1,14 @@
 import express, { Express, Request, Response, Router } from "express";
-import google from "googleapis"
+import { google } from "googleapis"
 import admin from 'firebase-admin';
 
 const api: Express = express();
 const port = process.env.PORT || 3000;
 
 var googleapis_crediential = {
-    clientId: process.env.googleapis_web_client_id,
-    clientSecret: process.env.googleapis_web_client_secret
-  }
+  clientId: process.env.googleapis_web_client_id,
+  clientSecret: process.env.googleapis_web_client_secret
+}
 
 admin.initializeApp({
   credential: admin.credential.cert({
@@ -21,7 +21,7 @@ admin.initializeApp({
 
 api.get("/", (req: Request, res: Response) => {
   var db = admin.firestore();
-  var oauth2Client = new google.Auth.OAuth2Client({...googleapis_crediential, redirectUri: ""})
+  var oauth2Client = new google.auth.OAuth2({ ...googleapis_crediential, redirectUri: "" })
   const scopes = [
     'https://www.googleapis.com/auth/blogger',
     'https://www.googleapis.com/auth/calendar'
