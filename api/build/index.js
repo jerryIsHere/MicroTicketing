@@ -16,7 +16,7 @@ admin.initializeApp({
 });
 api.get("/", (req, res) => {
     var db = admin.firestore();
-    var oauth2Client = new google.auth.OAuth2(Object.assign(Object.assign({}, googleapis_crediential), { redirectUri: "" }));
+    var oauth2Client = new google.auth.OAuth2({ ...googleapis_crediential, redirectUri: "" });
     const scopes = [
         'https://www.googleapis.com/auth/blogger',
         'https://www.googleapis.com/auth/calendar'
