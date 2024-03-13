@@ -1,5 +1,6 @@
 {
     "version": 2,
+    "buildCommand": "tsc",
     "builds": [
         {
             "src": "/build/index.js",
