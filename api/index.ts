@@ -37,7 +37,7 @@ api.get("/", (req: Request, res: Response) => {
     access_type: 'offline',
     scope: scopes
   });
-  // const service = google.sheets({ version: 'v4', auth: oauth2Client });
+  const service = google.sheets({ version: 'v4', auth: oauth2Client });
   // service.spreadsheets.values.get({
   //   spreadsheetId: "1_oATschOmqj7VGrqj4zYLnaGEfUR0KEFrHiV60gbyQM",
   //   range: "B2:B3",
