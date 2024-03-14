@@ -1,5 +1,5 @@
 import express, { Express, Request, Response, Router } from "express";
-import { sheets_v4, google } from "googleapis"
+import { Auth, sheets_v4, google } from "googleapis"
 import { GaxiosResponse } from 'gaxios';
 import admin from 'firebase-admin';
 import cors from 'cors';
@@ -28,12 +28,12 @@ admin.initializeApp({
 
 api.get("/", (req: Request, res: Response) => {
   var db = admin.firestore();
-  var auth = new google.auth.GoogleAuth({
+  var auth = new Auth.GoogleAuth({
     credentials: {
-      client_id: process.env.firebase_client_id,
-      client_email: process.env.firebase_client_email,
-      project_id: process.env.firebase_project_id,
-      private_key: process.env.firebase_private_key      
+      client_id: process.env.showmanager_client_id,
+      client_email: process.env.showmanager_client_email,
+      project_id: process.env.showmanager_project_id,
+      private_key: process.env.showmanager_private_key      
     },
     scopes: 'https://www.googleapis.com/auth/drive.file'
   })
