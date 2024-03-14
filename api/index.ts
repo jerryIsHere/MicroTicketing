@@ -29,9 +29,11 @@ admin.initializeApp({
 api.get("/", (req: Request, res: Response) => {
   var db = admin.firestore();
   var auth = new google.auth.GoogleAuth({
-    clientOptions: {
-      clientId: process.env.googleapis_web_client_id,
-      clientSecret: process.env.googleapis_web_client_secret
+    credentials: {
+      client_id: process.env.firebase_client_id,
+      client_email: process.env.firebase_client_email,
+      project_id: process.env.firebase_project_id,
+      private_key: process.env.firebase_private_key      
     },
     scopes: 'https://www.googleapis.com/auth/spreadsheets'
   })
