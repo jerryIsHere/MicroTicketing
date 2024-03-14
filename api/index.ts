@@ -37,10 +37,12 @@ api.get("/", (req: Request, res: Response) => {
     },
     scopes: 'https://www.googleapis.com/auth/drive.file'
   })
+  res.send(auth);
+  return;
   auth.getClient().then((client: any) => {
     
     res.send(client);
-    return null;
+    return;
     const service = google.sheets({ version: 'v4', auth: client });
     service.spreadsheets.values.get({
       spreadsheetId: "1_oATschOmqj7VGrqj4zYLnaGEfUR0KEFrHiV60gbyQM",
