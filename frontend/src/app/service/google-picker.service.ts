@@ -29,13 +29,12 @@ export class GooglePickerService {
         if (response.error !== undefined) {
           throw (response);
         }
-        const view = new google.picker.DocsView(google.picker.ViewId.DOCS);
-        view.setMimeTypes('application/vnd.google-apps.folder,application/vnd.google-apps.spreadsheet');
         const picker = new google.picker.PickerBuilder()
           .setDeveloperKey(this.API_KEY)
           .setAppId(this.APP_ID)
           .setOAuthToken(response.access_token)
-          .addView(view)
+          .addView(google.picker.ViewId.SPREADSHEETS)
+          .addView(google.picker.ViewId.FOLDERS)
           .setCallback(pickerCallback)
           .build();
         picker.setVisible(true);
