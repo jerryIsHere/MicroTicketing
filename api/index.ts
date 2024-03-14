@@ -1,8 +1,14 @@
 import express, { Express, Request, Response, Router } from "express";
 import { google } from "googleapis"
 import admin from 'firebase-admin';
+import cors from 'cors';
 
 const api: Express = express();
+var corsOptions = {
+  origin: 'https://micro-ticketing.vercel.app/',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+api.use(cors(corsOptions))
 const port = process.env.PORT || 3000;
 
 var googleapis_crediential = {
