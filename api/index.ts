@@ -28,30 +28,19 @@ admin.initializeApp({
 
 api.get("/", (req: Request, res: Response) => {
   var db = admin.firestore();
-  var auth = new Auth.GoogleAuth({
-    credentials: {
-      client_id: process.env.showmanager_client_id,
-      client_email: process.env.showmanager_client_email,
-      project_id: process.env.showmanager_project_id,
-      private_key: process.env.showmanager_private_key
-    },
+  var client = new Auth.JWT({
+    email: process.env.showmanager_client_email,
+    key: process.env.showmanager_private_key,
     scopes: 'https://www.googleapis.com/auth/drive.file'
   })
-  res.send(auth);
-  return;
-  auth.getClient().then((client: any) => {
-    
-    res.send(client);
-    return;
-    const service = google.sheets({ version: 'v4', auth: client });
-    service.spreadsheets.values.get({
-      spreadsheetId: "1_oATschOmqj7VGrqj4zYLnaGEfUR0KEFrHiV60gbyQM",
-      range: "B2:B3",
-    }).then((result: GaxiosResponse<sheets_v4.Schema$ValueRange>) => {
-      res.send(result.data.values);
-    }).catch((reason) => {
-      res.send(reason);
-    });
+  const service = google.sheets({ version: 'v4', auth: client  });
+  service.spreadsheets.values.get({
+    spreadsheetId: "1_oATschOmqj7VGrqj4zYLnaGEfUR0KEFrHiV60gbyQM",
+    range: "B2:B3",
+  }).then((result: GaxiosResponse<sheets_v4.Schema$ValueRange>) => {
+    res.send(result.data.values);
+  }).catch((reason) => {
+    res.send(reason);
   });
 
   // res.send("firebase collections: " + db.listCollections())
