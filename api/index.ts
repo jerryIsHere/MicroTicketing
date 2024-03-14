@@ -38,15 +38,15 @@ api.get("/", (req: Request, res: Response) => {
     scopes: 'https://www.googleapis.com/auth/drive.file'
   })
   const service = google.sheets({ version: 'v4', auth: auth });
-  // service.spreadsheets.values.get({
-  //   spreadsheetId: "1_oATschOmqj7VGrqj4zYLnaGEfUR0KEFrHiV60gbyQM",
-  //   range: "B2:B3",
-  // }).then((result: GaxiosResponse<sheets_v4.Schema$ValueRange>) => {
-  //   res.send(result.data.values);
-  // }).catch((reason) => {
-  //   res.send(reason);
-  // });
-  res.send("firebase collections: " + db.listCollections())
+  service.spreadsheets.values.get({
+    spreadsheetId: "1_oATschOmqj7VGrqj4zYLnaGEfUR0KEFrHiV60gbyQM",
+    range: "B2:B3",
+  }).then((result: GaxiosResponse<sheets_v4.Schema$ValueRange>) => {
+    res.send(result.data.values);
+  }).catch((reason) => {
+    res.send(reason);
+  });
+  // res.send("firebase collections: " + db.listCollections())
 
 });
 api.listen(port, () => {
