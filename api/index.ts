@@ -35,7 +35,7 @@ api.get("/", (req: Request, res: Response) => {
       project_id: process.env.firebase_project_id,
       private_key: process.env.firebase_private_key      
     },
-    scopes: 'https://www.googleapis.com/auth/spreadsheets'
+    scopes: 'https://www.googleapis.com/auth/drive.file'
   })
   const service = google.sheets({ version: 'v4', auth: auth });
   // service.spreadsheets.values.get({
