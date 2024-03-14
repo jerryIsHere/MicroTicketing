@@ -1,5 +1,6 @@
 import express, { Express, Request, Response, Router } from "express";
-import { google } from "googleapis"
+import { sheets_v4, google } from "googleapis"
+import { GaxiosResponse } from 'gaxios';
 import admin from 'firebase-admin';
 import cors from 'cors';
 
@@ -36,7 +37,19 @@ api.get("/", (req: Request, res: Response) => {
     access_type: 'offline',
     scope: scopes
   });
-  res.send("firebase collections: " + db.listCollections() + "\n oauth url: " + url);
+  const service = google.sheets({ version: 'v4', auth: oauth2Client });
+  var str = ""
+  try {
+    service.spreadsheets.values.get({
+      spreadsheetId: "1_oATschOmqj7VGrqj4zYLnaGEfUR0KEFrHiV60gbyQM",
+      range: "B2:B3",
+    }).then((result: GaxiosResponse<sheets_v4.Schema$ValueRange>) => {
+      res.send("firebase collections: " + db.listCollections() + "\n" + result.data.values);
+    });
+  }
+  catch (err) {
+    res.send("firebase collections: " + db.listCollections() + "\n" + err);
+  }
 
 });
 api.listen(port, () => {
