@@ -24,7 +24,11 @@
     ]
   },
   "angularCompilerOptions": {
-    "types": ["google.picker", "gapi", "google.accounts"],
+    "types": [
+      "google.picker",
+      "gapi",
+      "google.accounts"
+    ],
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
