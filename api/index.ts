@@ -28,16 +28,14 @@ admin.initializeApp({
 
 api.get("/", (req: Request, res: Response) => {
   var db = admin.firestore();
-  var oauth2Client = new google.auth.OAuth2({ ...googleapis_crediential, redirectUri: "" })
-  const scopes = [
-    'https://www.googleapis.com/auth/blogger',
-    'https://www.googleapis.com/auth/calendar'
-  ];
-  const url = oauth2Client.generateAuthUrl({
-    access_type: 'offline',
-    scope: scopes
-  });
-  const service = google.sheets({ version: 'v4', auth: oauth2Client });
+  var auth = new google.auth.GoogleAuth({
+    clientOptions: {
+      clientId: process.env.googleapis_web_client_id,
+      clientSecret: process.env.googleapis_web_client_secret
+    },
+    scopes: 'https://www.googleapis.com/auth/spreadsheets'
+  })
+  const service = google.sheets({ version: 'v4', auth: auth });
   // service.spreadsheets.values.get({
   //   spreadsheetId: "1_oATschOmqj7VGrqj4zYLnaGEfUR0KEFrHiV60gbyQM",
   //   range: "B2:B3",
@@ -46,7 +44,7 @@ api.get("/", (req: Request, res: Response) => {
   // }).catch((reason) => {
   //   res.send(reason);
   // });
-  res.send("firebase collections: " + db.listCollections() + "\nurl\n" + url)
+  res.send("firebase collections: " + db.listCollections())
 
 });
 api.listen(port, () => {
