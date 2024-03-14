@@ -38,18 +38,14 @@ api.get("/", (req: Request, res: Response) => {
     scope: scopes
   });
   const service = google.sheets({ version: 'v4', auth: oauth2Client });
-  var str = ""
-  try {
-    service.spreadsheets.values.get({
-      spreadsheetId: "1_oATschOmqj7VGrqj4zYLnaGEfUR0KEFrHiV60gbyQM",
-      range: "B2:B3",
-    }).then((result: GaxiosResponse<sheets_v4.Schema$ValueRange>) => {
-      res.send("firebase collections: " + db.listCollections() + "\n" + result.data.values);
-    });
-  }
-  catch (err) {
-    res.send("firebase collections: " + db.listCollections() + "\n" + err);
-  }
+  service.spreadsheets.values.get({
+    spreadsheetId: "1_oATschOmqj7VGrqj4zYLnaGEfUR0KEFrHiV60gbyQM",
+    range: "B2:B3",
+  }).then((result: GaxiosResponse<sheets_v4.Schema$ValueRange>) => {
+    res.send("firebase collections: " + db.listCollections() + "\n" + result.data.values);
+  }).catch((reason) => {
+    res.send("firebase collections: " + db.listCollections() + "\n" + reason);
+  });
 
 });
 api.listen(port, () => {
