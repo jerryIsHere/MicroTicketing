@@ -3,6 +3,7 @@ import { Auth, sheets_v4, google } from "googleapis"
 import { GaxiosResponse } from 'gaxios';
 import admin from 'firebase-admin';
 import cors from 'cors';
+import { sheets } from "googleapis/build/src/apis/sheets";
 
 const api: Express = express();
 var corsOptions = {
@@ -26,14 +27,18 @@ admin.initializeApp({
 });
 
 
-api.get("/", (req: Request, res: Response) => {
+api.get("/", async (req: Request, res: Response) => {
   var db = admin.firestore();
-  var client = new Auth.JWT({
-    email: process.env.showmanager_client_email,
-    key: process.env.showmanager_private_key,
-    scopes: 'https://www.googleapis.com/auth/drive.file'
+  var auth = new google.auth.GoogleAuth({
+    credentials: {
+      client_id: process.env.showmanager_client_id,
+      client_email: process.env.showmanager_client_email,
+      project_id: process.env.showmanager_project_id,
+      private_key: process.env.showmanager_private_key
+    },
+    scopes: ['https://www.googleapis.com/auth/drive.file']
   })
-  const service = google.sheets({ version: 'v4', auth: client  });
+  const service = google.sheets({ version: 'v4', auth });
   service.spreadsheets.values.get({
     spreadsheetId: "1_oATschOmqj7VGrqj4zYLnaGEfUR0KEFrHiV60gbyQM",
     range: "B2:B3",
