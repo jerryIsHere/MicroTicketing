@@ -37,15 +37,16 @@ api.get("/", (req: Request, res: Response) => {
     access_type: 'offline',
     scope: scopes
   });
-  const service = google.sheets({ version: 'v4', auth: oauth2Client });
-  service.spreadsheets.values.get({
-    spreadsheetId: "1_oATschOmqj7VGrqj4zYLnaGEfUR0KEFrHiV60gbyQM",
-    range: "B2:B3",
-  }).then((result: GaxiosResponse<sheets_v4.Schema$ValueRange>) => {
-    res.send("firebase collections: " + db.listCollections() + "\n" + result.data.values);
-  }).catch((reason) => {
-    res.send("firebase collections: " + db.listCollections() + "\n" + reason);
-  });
+  // const service = google.sheets({ version: 'v4', auth: oauth2Client });
+  // service.spreadsheets.values.get({
+  //   spreadsheetId: "1_oATschOmqj7VGrqj4zYLnaGEfUR0KEFrHiV60gbyQM",
+  //   range: "B2:B3",
+  // }).then((result: GaxiosResponse<sheets_v4.Schema$ValueRange>) => {
+  //   res.send(result.data.values);
+  // }).catch((reason) => {
+  //   res.send(reason);
+  // });
+  res.send("firebase collections: " + db.listCollections() + "\nurl\n" + url)
 
 });
 api.listen(port, () => {
