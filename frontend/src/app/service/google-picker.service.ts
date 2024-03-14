@@ -2,6 +2,12 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
+/*
+see 
+https://developers.google.com/identity/oauth2/web/reference/js-reference
+https://developers.google.com/drive/picker/reference
+*/
+
 export class GooglePickerService {
   public SCOPES: string = 'https://www.googleapis.com/auth/drive.file';
 
@@ -26,13 +32,10 @@ export class GooglePickerService {
         const view = new google.picker.DocsView(google.picker.ViewId.DOCS);
         view.setMimeTypes('application/vnd.google-apps.folder,application/vnd.google-apps.spreadsheet');
         const picker = new google.picker.PickerBuilder()
-          .enableFeature(google.picker.Feature.NAV_HIDDEN)
-          .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
           .setDeveloperKey(this.API_KEY)
           .setAppId(this.APP_ID)
           .setOAuthToken(response.access_token)
           .addView(view)
-          .addView(new google.picker.DocsUploadView())
           .setCallback(pickerCallback)
           .build();
         picker.setVisible(true);
