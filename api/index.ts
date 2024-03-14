@@ -33,19 +33,22 @@ api.get("/", (req: Request, res: Response) => {
       client_id: process.env.showmanager_client_id,
       client_email: process.env.showmanager_client_email,
       project_id: process.env.showmanager_project_id,
-      private_key: process.env.showmanager_private_key      
+      private_key: process.env.showmanager_private_key
     },
     scopes: 'https://www.googleapis.com/auth/drive.file'
   })
-  const service = google.sheets({ version: 'v4', auth: auth });
-  service.spreadsheets.values.get({
-    spreadsheetId: "1_oATschOmqj7VGrqj4zYLnaGEfUR0KEFrHiV60gbyQM",
-    range: "B2:B3",
-  }).then((result: GaxiosResponse<sheets_v4.Schema$ValueRange>) => {
-    res.send(result.data.values);
-  }).catch((reason) => {
-    res.send(reason);
+  auth.getClient().then((client: any) => {
+    const service = google.sheets({ version: 'v4', auth: client });
+    service.spreadsheets.values.get({
+      spreadsheetId: "1_oATschOmqj7VGrqj4zYLnaGEfUR0KEFrHiV60gbyQM",
+      range: "B2:B3",
+    }).then((result: GaxiosResponse<sheets_v4.Schema$ValueRange>) => {
+      res.send(result.data.values);
+    }).catch((reason) => {
+      res.send(reason);
+    });
   });
+
   // res.send("firebase collections: " + db.listCollections())
 
 });
