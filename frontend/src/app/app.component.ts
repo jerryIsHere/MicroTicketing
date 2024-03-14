@@ -16,6 +16,8 @@ export class AppComponent {
   constructor(public googlePicker: GooglePickerService) {
   }
   selectFile() {
-    this.googlePicker.openPicker((result: google.picker.ResponseObject) => { })
+    this.googlePicker.openPicker((result: google.picker.ResponseObject) => { 
+      console.log(result)
+    })
   }
 }

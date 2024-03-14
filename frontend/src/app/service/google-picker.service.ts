@@ -29,12 +29,16 @@ export class GooglePickerService {
         if (response.error !== undefined) {
           throw (response);
         }
+        var folderView = new google.picker.DocsView()
+          .setIncludeFolders(true) 
+          .setMimeTypes('application/vnd.google-apps.folder')
+          .setSelectFolderEnabled(true);
         const picker = new google.picker.PickerBuilder()
           .setDeveloperKey(this.API_KEY)
           .setAppId(this.APP_ID)
           .setOAuthToken(response.access_token)
           .addView(google.picker.ViewId.SPREADSHEETS)
-          .addView(google.picker.ViewId.FOLDERS)
+          .addView(folderView)
           .setCallback(pickerCallback)
           .build();
         picker.setVisible(true);
