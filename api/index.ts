@@ -25,7 +25,7 @@ admin.initializeApp({
   })
 });
 
-api.post("/show/create", (req: Request, res: Response) => {
+api.get("/", (req: Request, res: Response) => {
   var showPromise = show.create().then((result: GaxiosResponse<sheets_v4.Schema$ValueRange>) => {
     res.send(result);
   }).catch((reason) => {

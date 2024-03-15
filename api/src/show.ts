@@ -16,7 +16,6 @@ export namespace show {
             scopes: ['https://www.googleapis.com/auth/drive.file']
         })
         const service = google.sheets({ version: 'v4', auth });
-        service.spreadsheets.create()
         return service.spreadsheets.values.get({
             spreadsheetId: "1_oATschOmqj7VGrqj4zYLnaGEfUR0KEFrHiV60gbyQM",
             range: "B2:B3",

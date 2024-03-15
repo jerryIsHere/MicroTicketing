@@ -75,16 +75,15 @@ export class GoogleService {
       this.apiScriptElement.src = "https://apis.google.com/js/api.js";
       this.apiScriptElement.onload = () => {
         Promise.all([
-          gapi.client.init({
-            'clientId': 'https://www.googleapis.com/auth/drive.file',
-            'scope': 'https://www.googleapis.com/auth/drive.file',
+          gapi.load('client', () => {
+            return gapi.client.init({
+              'clientId': 'https://www.googleapis.com/auth/drive.file',
+              'scope': 'https://www.googleapis.com/auth/drive.file',
+            })
           }),
           gapi.load('client:picker', async () => {
             await gapi.client.load('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest');
           }),
-          gapi.load('client:drive', () => { })]).then(() => {
-            resolve(null)
-          }).catch((reason) => reject(reason))
       }
       document.getElementsByTagName('head')[0].appendChild(this.apiScriptElement);
     });
