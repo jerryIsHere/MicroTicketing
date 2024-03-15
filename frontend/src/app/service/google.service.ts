@@ -24,6 +24,7 @@ export class GoogleService {
 
   getAccessToFile(result: google.picker.ResponseObject) {
     gapi.client.request({
+      method: 'POST',
       path: `https://www.googleapis.com/drive/v2/files/${result.docs[0].id}/permissions`,
       params: {
         emailMessage: "MicroTicketing is requesting permission for this file."
