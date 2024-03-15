@@ -17,10 +17,9 @@ var googleapis_crediential = {
   clientId: process.env.googleapis_web_client_id,
   clientSecret: process.env.googleapis_web_client_secret
 }
-
 admin.initializeApp({
   credential: admin.credential.cert({
-    privateKey: process.env.firebase_private_key,
+    privateKey: process.env.firebase_private_key?process.env.firebase_private_key.replace(/\\n/g, '\n') : undefined,
     clientEmail: process.env.firebase_client_email,
     projectId: process.env.firebase_project_id
   })
@@ -34,7 +33,7 @@ api.get("/", async (req: Request, res: Response) => {
       client_id: process.env.showmanager_client_id,
       client_email: process.env.showmanager_client_email,
       project_id: process.env.showmanager_project_id,
-      private_key: process.env.showmanager_private_key
+      private_key: process.env.showmanager_private_key ? process.env.showmanager_private_key.replace(/\\n/g, '\n') : undefined
     },
     scopes: ['https://www.googleapis.com/auth/drive.file']
   })
