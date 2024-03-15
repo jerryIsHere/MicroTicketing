@@ -83,7 +83,7 @@ export class GoogleService {
           }),
           gapi.load('client:picker', async () => {
             await gapi.client.load('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest');
-          }),
+          })])
       }
       document.getElementsByTagName('head')[0].appendChild(this.apiScriptElement);
     });
