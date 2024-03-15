@@ -12,7 +12,7 @@ export class GooglePickerService {
   public SCOPES: string = 'https://www.googleapis.com/auth/drive.file';
 
   // TODO(developer): Set to client ID and API key from the Developer Console
-  private readonly CLIENT_ID = "242594859844-i56aphq64n5njgo09gt7e4j86530rlhu.apps.googleusercontent.com";
+  private readonly CLIENT_ID = "242594859844-i3vag10vqadh1pl8ol2p3p8bptakq4ut.apps.googleusercontent.com";
   private readonly API_KEY = 'AIzaSyBmrhY1V7pPhsWqEIHLUZxE84gDUwzPJ1s';
 
   // TODO(developer): Replace with your own project number from console.developers.google.com.
