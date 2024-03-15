@@ -14,6 +14,7 @@ export class GoogleService {
   // TODO(developer): Set to client ID and API key from the Developer Console
   private readonly CLIENT_ID = "242594859844-i3vag10vqadh1pl8ol2p3p8bptakq4ut.apps.googleusercontent.com";
   private readonly API_KEY = 'AIzaSyBmrhY1V7pPhsWqEIHLUZxE84gDUwzPJ1s';
+  private readonly SERVICE_ACCOUNT_EMAIL = "showmanager@microticketing-416804.iam.gserviceaccount.com"
 
   // TODO(developer): Replace with your own project number from console.developers.google.com.
   private readonly APP_ID: string = "242594859844";
@@ -22,7 +23,25 @@ export class GoogleService {
   private authScriptElement: HTMLScriptElement = document.createElement('script');
 
   getAccessToFile(result: google.picker.ResponseObject) {
-    gapi.client.drive
+    gapi.client.request({
+      path: `https://www.googleapis.com/drive/v2/files/${result.docs[0].id}/permissions`,
+      params: {
+        emailMessage: "MicroTicketing is requesting permission for this file."
+      },
+      body: {
+        "name": "MicroTicketing",
+        "type": "user",
+        "role": "writer",
+        "additionalRoles": [
+          "commenter"
+        ],
+        "value": this.SERVICE_ACCOUNT_EMAIL,
+      }
+    }).then(function (response) {
+      console.log(response.result);
+    }, function (reason) {
+      console.log('Error: ' + reason.result.error.message);
+    });
   }
   openPicker(pickerCallback: (result: google.picker.ResponseObject) => void) {
     let tokenClient = google.accounts.oauth2.initTokenClient({
@@ -55,13 +74,17 @@ export class GoogleService {
       this.apiScriptElement.type = 'text/javascript';
       this.apiScriptElement.src = "https://apis.google.com/js/api.js";
       this.apiScriptElement.onload = () => {
-        gapi.load('client:picker', async () => {
-          await gapi.client.load('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest');
-          resolve(null)
-        });
-        gapi.load('client:drive', async () => {
-        });
-        resolve(null)
+        Promise.all([
+          gapi.client.init({
+            'clientId': 'https://www.googleapis.com/auth/drive.file',
+            'scope': 'https://www.googleapis.com/auth/drive.file',
+          }),
+          gapi.load('client:picker', async () => {
+            await gapi.client.load('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest');
+          }),
+          gapi.load('client:drive', () => { })]).then(() => {
+            resolve(null)
+          }).catch((reason) => reject(reason))
       }
       document.getElementsByTagName('head')[0].appendChild(this.apiScriptElement);
     });

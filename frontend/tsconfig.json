@@ -26,9 +26,9 @@
   "angularCompilerOptions": {
     "types": [
       "google.picker",
+      "google.accounts",
       "gapi",
       "gapi.drive",
-      "gapi.auth2"
     ],
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
