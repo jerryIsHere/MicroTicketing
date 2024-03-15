@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { GooglePickerService } from './service/google-picker.service';
+import { GoogleService } from './service/google.service';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
@@ -13,11 +13,12 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class AppComponent {
   title = 'frontend';
-  constructor(public googlePicker: GooglePickerService) {
+  constructor(public googlePicker: GoogleService) {
   }
   selectFile() {
     this.googlePicker.openPicker((result: google.picker.ResponseObject) => { 
       console.log(result)
+      
     })
   }
 }

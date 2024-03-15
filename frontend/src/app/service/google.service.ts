@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -8,8 +9,7 @@ https://developers.google.com/identity/oauth2/web/reference/js-reference
 https://developers.google.com/drive/picker/reference
 */
 
-export class GooglePickerService {
-  public SCOPES: string = 'https://www.googleapis.com/auth/drive.file';
+export class GoogleService {
 
   // TODO(developer): Set to client ID and API key from the Developer Console
   private readonly CLIENT_ID = "242594859844-i3vag10vqadh1pl8ol2p3p8bptakq4ut.apps.googleusercontent.com";
@@ -21,16 +21,19 @@ export class GooglePickerService {
   private apiScriptElement: HTMLScriptElement = document.createElement('script');
   private authScriptElement: HTMLScriptElement = document.createElement('script');
 
+  getAccessToFile(result: google.picker.ResponseObject) {
+    gapi.client.drive
+  }
   openPicker(pickerCallback: (result: google.picker.ResponseObject) => void) {
     let tokenClient = google.accounts.oauth2.initTokenClient({
       client_id: this.CLIENT_ID,
-      scope: this.SCOPES,
+      scope: 'https://www.googleapis.com/auth/drive.file',
       callback: (response) => {
         if (response.error !== undefined) {
           throw (response);
         }
         var folderView = new google.picker.DocsView()
-          .setIncludeFolders(true) 
+          .setIncludeFolders(true)
           .setMimeTypes('application/vnd.google-apps.folder')
           .setSelectFolderEnabled(true);
         const picker = new google.picker.PickerBuilder()
@@ -45,15 +48,14 @@ export class GooglePickerService {
       }
     });
     tokenClient.requestAccessToken({ prompt: 'consent' });
+    return tokenClient
   }
   loadScripts() {
     let apiScriptPromise = new Promise((resolve, reject) => {
       this.apiScriptElement.type = 'text/javascript';
       this.apiScriptElement.src = "https://apis.google.com/js/api.js";
       this.apiScriptElement.onload = () => {
-        gapi.load('client:picker', async () => {
-          await gapi.client.load('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest');
-          resolve(null)
+        gapi.load('client:drive', async () => {
         });
         resolve(null)
       }

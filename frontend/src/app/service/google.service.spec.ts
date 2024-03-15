@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { GooglePickerService } from './google-picker.service';
+import { GoogleService } from './google.service';
 
 describe('GooglePickerService', () => {
-  let service: GooglePickerService;
+  let service: GoogleService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(GooglePickerService);
+    service = TestBed.inject(GoogleService);
   });
 
   it('should be created', () => {

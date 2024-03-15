@@ -45,14 +45,18 @@ api.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         },
         scopes: ['https://www.googleapis.com/auth/drive.file']
     });
+    // var auth = new google.auth.OAuth2({
+    //   clientId: process.env.oauth_web_client_id,
+    //   clientSecret: process.env.oauth_web_client_secret
+    // })
     const service = googleapis_1.google.sheets({ version: 'v4', auth });
     service.spreadsheets.values.get({
         spreadsheetId: "1_oATschOmqj7VGrqj4zYLnaGEfUR0KEFrHiV60gbyQM",
         range: "B2:B3",
     }).then((result) => {
-        res.send(result.data.values);
+        res.send(result);
     }).catch((reason) => {
-        res.send(reason);
+        res.send("reason\n" + reason);
     });
     // res.send("firebase collections: " + db.listCollections())
 }));

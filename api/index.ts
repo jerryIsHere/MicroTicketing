@@ -1,10 +1,9 @@
 import express, { Express, Request, Response, Router } from "express";
-import { Auth, sheets_v4, google } from "googleapis"
-import { GaxiosResponse } from 'gaxios';
 import admin from 'firebase-admin';
 import cors from 'cors';
-import { sheets } from "googleapis/build/src/apis/sheets";
-
+import { show } from './src/show';
+import { GaxiosResponse, GaxiosPromise } from 'gaxios';
+import { sheets_v4 } from "googleapis"
 const api: Express = express();
 var corsOptions = {
   origin: 'https://micro-ticketing.vercel.app/',
@@ -12,44 +11,30 @@ var corsOptions = {
 }
 api.use(cors(corsOptions))
 const port = process.env.PORT || 3000;
+var db = admin.firestore();
 
 var googleapis_crediential = {
-  clientId: process.env.googleapis_web_client_id,
-  clientSecret: process.env.googleapis_web_client_secret
+  clientId: process.env.oauth_web_client_id,
+  clientSecret: process.env.oauth_web_client_secret,
 }
 admin.initializeApp({
   credential: admin.credential.cert({
-    privateKey: process.env.firebase_private_key?process.env.firebase_private_key.replace(/\\n/g, '\n') : undefined,
+    privateKey: process.env.firebase_private_key ? process.env.firebase_private_key.replace(/\\n/g, '\n') : undefined,
     clientEmail: process.env.firebase_client_email,
     projectId: process.env.firebase_project_id
   })
 });
 
-
-api.get("/", async (req: Request, res: Response) => {
-  var db = admin.firestore();
-  var auth = new google.auth.GoogleAuth({
-    credentials: {
-      client_id: process.env.showmanager_client_id,
-      client_email: process.env.showmanager_client_email,
-      project_id: process.env.showmanager_project_id,
-      private_key: process.env.showmanager_private_key ? process.env.showmanager_private_key.replace(/\\n/g, '\n') : undefined
-    },
-    scopes: ['https://www.googleapis.com/auth/drive.file']
-  })
-  const service = google.sheets({ version: 'v4', auth });
-  service.spreadsheets.values.get({
-    spreadsheetId: "1_oATschOmqj7VGrqj4zYLnaGEfUR0KEFrHiV60gbyQM",
-    range: "B2:B3",
-  }).then((result: GaxiosResponse<sheets_v4.Schema$ValueRange>) => {
-    res.send(result.data.values);
+api.post("/show/create", (req: Request, res: Response) => {
+  var showPromise = show.create().then((result: GaxiosResponse<sheets_v4.Schema$ValueRange>) => {
+    res.send(result);
   }).catch((reason) => {
-    res.send(reason);
+    res.send("reason\n" + reason);
   });
+  ;
+  res.send
+})
 
-  // res.send("firebase collections: " + db.listCollections())
-
-});
 api.listen(port, () => {
   admin;
   console.log(`[server]: Server is running at http://localhost:${port}`);

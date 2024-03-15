@@ -27,7 +27,8 @@
     "types": [
       "google.picker",
       "gapi",
-      "google.accounts"
+      "gapi.drive",
+      "gapi.auth2"
     ],
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
