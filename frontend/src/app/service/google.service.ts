@@ -55,6 +55,10 @@ export class GoogleService {
       this.apiScriptElement.type = 'text/javascript';
       this.apiScriptElement.src = "https://apis.google.com/js/api.js";
       this.apiScriptElement.onload = () => {
+        gapi.load('client:picker', async () => {
+          await gapi.client.load('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest');
+          resolve(null)
+        });
         gapi.load('client:drive', async () => {
         });
         resolve(null)
