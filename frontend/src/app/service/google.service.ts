@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ShowInfo } from '../show-create/show-create.component';
 
 @Injectable({
   providedIn: 'root'
@@ -22,27 +23,61 @@ export class GoogleService {
   private apiScriptElement: HTMLScriptElement = document.createElement('script');
   private authScriptElement: HTMLScriptElement = document.createElement('script');
 
-  getAccessToFile(result: google.picker.ResponseObject) {
-    gapi.client.request({
-      method: 'POST',
-      path: `https://www.googleapis.com/drive/v2/files/${result.docs[0].id}/permissions`,
-      params: {
-        emailMessage: "MicroTicketing is requesting permission for this file."
-      },
-      body: {
-        "name": "MicroTicketing",
-        "type": "user",
-        "role": "writer",
-        "additionalRoles": [
-          "commenter"
-        ],
-        "value": this.SERVICE_ACCOUNT_EMAIL,
-      }
-    }).then(function (response) {
-      console.log(response.result);
-    }, function (reason) {
-      console.log('Error: ' + reason.result.error.message);
-    });
+  getAccessToFile(result: google.picker.ResponseObject): Promise<gapi.client.HttpRequestFulfilled<any>> {
+    return new Promise((resolve, reject) => {
+      gapi.client.request({
+        method: 'POST',
+        path: `https://www.googleapis.com/drive/v2/files/${result.docs[0].id}/permissions`,
+        params: {
+          emailMessage: "MicroTicketing is requesting permission for this file."
+        },
+        body: {
+          "name": "MicroTicketing",
+          "type": "user",
+          "role": "writer",
+          "additionalRoles": [
+            "commenter"
+          ],
+          "value": this.SERVICE_ACCOUNT_EMAIL,
+        }
+      }).then(function (response) {
+        resolve(response)
+      }, function (reason) {
+        reject(reason)
+      });
+    })
+  }
+  setShowInfo(result: google.picker.ResponseObject, showInfo: ShowInfo): Promise<gapi.client.HttpRequestFulfilled<any>> {
+    return new Promise((resolve, reject) => {
+      gapi.client.request({
+        method: 'POST',
+        path: `https://sheets.googleapis.com/v4/spreadsheets/${result.docs[0].id}:batchUpdate`,
+        params: {
+          emailMessage: "MicroTicketing is requesting permission for this file."
+        },
+        body: {
+          "requests": [{
+            "addSheet": {
+              "properties": {
+                "title": "microticketing-info",
+              }
+            }
+          },
+          {
+            "addSheet": {
+              "properties": {
+                "title": "microticketing-seats",
+              }
+            }
+          },
+          ]
+        }
+      }).then(function (response) {
+        resolve(response)
+      }, function (reason) {
+        reject(reason)
+      });
+    })
   }
   openPicker(pickerCallback: (result: google.picker.ResponseObject) => void) {
     let tokenClient = google.accounts.oauth2.initTokenClient({
@@ -52,16 +87,11 @@ export class GoogleService {
         if (response.error !== undefined) {
           throw (response);
         }
-        var folderView = new google.picker.DocsView()
-          .setIncludeFolders(true)
-          .setMimeTypes('application/vnd.google-apps.folder')
-          .setSelectFolderEnabled(true);
         const picker = new google.picker.PickerBuilder()
           .setDeveloperKey(this.API_KEY)
           .setAppId(this.APP_ID)
           .setOAuthToken(response.access_token)
           .addView(google.picker.ViewId.SPREADSHEETS)
-          .addView(folderView)
           .setCallback(pickerCallback)
           .build();
         picker.setVisible(true);

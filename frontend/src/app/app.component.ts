@@ -14,11 +14,4 @@ export class AppComponent {
   title = 'frontend';
   constructor(public googlePicker: GoogleService) {
   }
-  selectFile() {
-    this.googlePicker.openPicker((result: google.picker.ResponseObject) => {
-      console.log(result)
-      this.googlePicker.getAccessToFile(result);
-
-    })
-  }
 }

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
 
 @Component({
   selector: 'app-ticket-buy',
@@ -8,5 +9,10 @@ import { Component } from '@angular/core';
   styleUrl: './ticket-buy.component.sass'
 })
 export class TicketBuyComponent {
+  _id: string | null = null;
+  @Input()
+  set id(_id: string) {
+    this._id = _id;
+  }
 
 }

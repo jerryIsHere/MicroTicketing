@@ -1,1 +1,33 @@
-<p>show-create works!</p>
+<mat-vertical-stepper linear>
+  <mat-step [stepControl]="showForm">
+    <form [formGroup]="showForm">
+      <ng-template matStepLabel>
+        Only elligeble user are allowed to create shows.
+      </ng-template>
+      <mat-form-field>
+        <mat-label>Time of event</mat-label>
+        <input matInput formControlName="date" required>
+        @if (showForm.controls['date'].hasError('required')) {
+        <mat-error>This field is required</mat-error>
+        }
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>No. of seats</mat-label>
+        <input matInput formControlName="seats" required>
+        @if (showForm.controls['seats'].hasError('required')) {
+        <mat-error>This field is required</mat-error>
+        }
+        @if (showForm.controls['seats'].hasError('min') ) {
+        <mat-error>Number of seats must be a positive integer</mat-error>
+        }
+      </mat-form-field>
+    </form>
+    <button mat-button matStepperNext>Next</button>
+  </mat-step>
+  <mat-step>
+    Please prepare a spreadsheet in google drive. <br>
+    Then choose it here:<br>
+    <button mat-button (click)="openPicker()">choose spreadsheet</button>
+  </mat-step>
+</mat-vertical-stepper>
