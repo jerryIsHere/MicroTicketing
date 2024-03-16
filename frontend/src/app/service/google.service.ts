@@ -108,6 +108,12 @@ export class GoogleService {
                       "endColumnIndex": 1
                     },
                     "description": "this is a form from microticketing",
+                    "warningOnly": false,
+                    "editors": {
+                      "users": [],
+                      "groups": [],
+                      "domainUsersCanEdit": false,
+                    }
                   }
                 }
               },
@@ -122,6 +128,12 @@ export class GoogleService {
                       "endColumnIndex": 1
                     },
                     "description": "this column is the seats id from microticketing",
+                    "warningOnly": false,
+                    "editors": {
+                      "users": [],
+                      "groups": [],
+                      "domainUsersCanEdit": false,
+                    }
                   }
                 }
               },
