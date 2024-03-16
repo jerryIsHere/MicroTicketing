@@ -20,6 +20,7 @@ const api = (0, express_1.default)();
 var corsOptions = {
     origin: 'https://micro-ticketing.vercel.app',
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 api.options('*', (0, cors_1.default)());
