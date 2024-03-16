@@ -13,13 +13,14 @@ import cors from 'cors';
 import { show } from './src/show';
 import { GaxiosResponse, GaxiosPromise } from 'gaxios';
 import { drive_v3, sheets_v4 } from "googleapis"
+
+const port = process.env.PORT || 3000;
 const api: Express = express();
 var corsOptions = {
   origin: 'https://micro-ticketing.vercel.app',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
-api.use(cors(corsOptions))
-const port = process.env.PORT || 3000;
+api.options('*', cors())
 
 
 
