@@ -10,7 +10,7 @@ export namespace show {
                 client_id: process.env.showmanager_client_id,
                 client_email: process.env.showmanager_client_email,
                 project_id: process.env.showmanager_project_id,
-                private_key: process.env.showmanager_private_key ? process.env.showmanager_private_key.replace(/\\n/g, '\n') : undefined
+                private_key: process.env.showmanager_private_key
             },
             scopes: ['https://www.googleapis.com/auth/spreadsheets']
         })
@@ -27,7 +27,7 @@ export namespace show {
                 client_id: process.env.showmanager_client_id,
                 client_email: process.env.showmanager_client_email,
                 project_id: process.env.showmanager_project_id,
-                private_key: process.env.showmanager_private_key ? process.env.showmanager_private_key.replace(/\\n/g, '\n') : undefined
+                private_key: process.env.showmanager_private_ke
             },
             scopes: ['https://www.googleapis.com/auth/drive']
         })
