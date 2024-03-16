@@ -52,9 +52,6 @@ export class GoogleService {
       gapi.client.request({
         method: 'POST',
         path: `https://sheets.googleapis.com/v4/spreadsheets/${result.docs[0].id}:batchUpdate`,
-        params: {
-          emailMessage: "MicroTicketing is requesting permission for this file."
-        },
         body: {
           "requests": [{
             "addSheet": {
