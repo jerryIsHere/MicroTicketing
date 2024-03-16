@@ -5,6 +5,6 @@ import { TicketBuyComponent } from './ticket-buy/ticket-buy.component';
 
 export const routes: Routes = [
     { path: '', component: ShowListComponent },
-    { path: '/show/create', component: ShowCreateComponent },
-    { path: '/ticket/buy', component: TicketBuyComponent },
+    { path: 'show/create', component: ShowCreateComponent },
+    { path: 'ticket/buy', component: TicketBuyComponent },
 ];
