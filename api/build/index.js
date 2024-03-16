@@ -15,13 +15,14 @@ const express_1 = __importDefault(require("express"));
 // var db = admin.firestore();
 const cors_1 = __importDefault(require("cors"));
 const show_1 = require("./src/show");
+const port = process.env.PORT || 3000;
 const api = (0, express_1.default)();
 var corsOptions = {
-    origin: 'https://micro-ticketing.vercel.app/',
+    origin: 'https://micro-ticketing.vercel.app',
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
-api.use((0, cors_1.default)(corsOptions));
-const port = process.env.PORT || 3000;
+api.options('*', (0, cors_1.default)());
 api.get("/show/:showId", (req, res) => {
     var showPromise = show_1.show.get(req.params.showId).then((result) => {
         res.send(result);

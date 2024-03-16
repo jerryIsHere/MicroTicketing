@@ -21,7 +21,6 @@ var show;
     }
     show.get = get;
     function list() {
-        console.log(process.env.showmanager_private_key);
         var auth = new googleapis_1.google.auth.GoogleAuth({
             credentials: {
                 client_id: process.env.showmanager_client_id,
