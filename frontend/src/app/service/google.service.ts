@@ -23,7 +23,7 @@ export class GoogleService {
   private apiScriptElement: HTMLScriptElement = document.createElement('script');
   private authScriptElement: HTMLScriptElement = document.createElement('script');
 
-  getAccessToFile(result: google.picker.ResponseObject): Promise<gapi.client.Response<any>> {
+  getAccessToFile(result: google.picker.ResponseObject): Promise<gapi.client.HttpRequestFulfilled<any>> {
     return new Promise((resolve, reject) => {
       gapi.client.request({
         method: 'POST',
@@ -47,7 +47,7 @@ export class GoogleService {
       });
     })
   }
-  setShowInfo(result: google.picker.ResponseObject, showInfo: ShowInfo): Promise<gapi.client.Response<any>> {
+  setShowInfo(result: google.picker.ResponseObject, showInfo: ShowInfo): Promise<gapi.client.HttpRequestFulfilled<any>> {
     return new Promise((resolve, reject) => {
       gapi.client.request({
         method: 'POST',
