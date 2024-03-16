@@ -13,6 +13,7 @@ import cors from 'cors';
 import { show } from './src/show';
 import { GaxiosResponse, GaxiosPromise } from 'gaxios';
 import { drive_v3, sheets_v4 } from "googleapis"
+import { ticket } from "./src/ticket";
 
 const port = process.env.PORT || 3000;
 const api: Express = express();
@@ -27,9 +28,9 @@ api.use(cors(corsOptions))
 
 
 api.get("/show/:showId", (req: Request, res: Response) => {
-  var showPromise = show.get(req.params.showId).then((result: GaxiosResponse<sheets_v4.Schema$ValueRange>) => {
+  var showPromise = show.get(req.params.showId).then((result: any) => {
     res.send(result);
-  }).catch((reason) => {
+  }).catch((reason: any) => {
     res.send("reason\n" + reason);
   });
   res.send
@@ -41,6 +42,17 @@ api.get("/shows", (req: Request, res: Response) => {
   }).catch((reason) => {
     res.send("reason\n" + reason);
   });
+  ;
+  res.send
+})
+
+api.post("/show/:showId/ticket/:seatId/buy", (req: Request, res: Response) => {
+  if (req.body.contactname)
+    var showPromise = ticket.get(req.params.showId, req.params.seatId, req.body.contactname).then((result) => {
+      res.send(result);
+    }).catch((reason) => {
+      res.send("reason\n" + reason);
+    });
   ;
   res.send
 })

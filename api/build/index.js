@@ -15,15 +15,15 @@ const express_1 = __importDefault(require("express"));
 // var db = admin.firestore();
 const cors_1 = __importDefault(require("cors"));
 const show_1 = require("./src/show");
+const ticket_1 = require("./src/ticket");
 const port = process.env.PORT || 3000;
 const api = (0, express_1.default)();
 var corsOptions = {
     origin: 'https://micro-ticketing.vercel.app',
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true,
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
-api.options('*', (0, cors_1.default)());
+api.use((0, cors_1.default)(corsOptions));
 api.get("/show/:showId", (req, res) => {
     var showPromise = show_1.show.get(req.params.showId).then((result) => {
         res.send(result);
@@ -38,6 +38,16 @@ api.get("/shows", (req, res) => {
     }).catch((reason) => {
         res.send("reason\n" + reason);
     });
+    ;
+    res.send;
+});
+api.post("/show/:showId/ticket/:seatId/buy", (req, res) => {
+    if (req.body.contactname)
+        var showPromise = ticket_1.ticket.get(req.params.showId, req.params.seatId, req.body.contactname).then((result) => {
+            res.send(result);
+        }).catch((reason) => {
+            res.send("reason\n" + reason);
+        });
     ;
     res.send;
 });

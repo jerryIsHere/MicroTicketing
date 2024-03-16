@@ -4,7 +4,7 @@ import { GaxiosResponse, GaxiosPromise } from 'gaxios';
 import { sheets } from "googleapis/build/src/apis/sheets";
 
 export namespace show {
-    export function get(id: string): GaxiosPromise<sheets_v4.Schema$ValueRange> {
+    export async function get(id: string): Promise<any> {
         var auth = new google.auth.GoogleAuth({
             credentials: {
                 client_id: process.env.showmanager_client_id,
@@ -15,9 +15,21 @@ export namespace show {
             scopes: ['https://www.googleapis.com/auth/spreadsheets']
         })
         const service = google.sheets({ version: 'v4', auth });
-        return service.spreadsheets.values.get({
+        var seatIds = (await service.spreadsheets.values.get({
             spreadsheetId: id,
-        })
+            range: 'microticketing-seats'
+        })).data.values?.filter(row => row.length < 2 || row[1] == "" || row[1] == undefined).map(row => row[0])
+        var info = (await service.spreadsheets.values.get({
+            spreadsheetId: id,
+            range: 'microticketing-info'
+        })).data.values?.reduce((info: any, row, ind) => {
+            info[row[0]] = row[1]
+            return info;
+        }, {})
+        return {
+            info: info,
+            seats: seatIds
+        }
 
     }
     export function list(): Promise<drive_v3.Schema$File[]> {

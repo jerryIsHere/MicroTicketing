@@ -1,1 +1,35 @@
-<p>ticket-buy works! {{ _id }}</p>
+<mat-vertical-stepper linear>
+  <mat-step [stepControl]="buyForm">
+    @if(_show == null){
+
+    }
+    @else {
+    <form [formGroup]="buyForm">
+      <ng-template matStepLabel>
+        Show date : {{_show.date}}
+      </ng-template>
+      <mat-form-field>
+        <mat-label>Time of event</mat-label>
+        <input matInput formControlName="name" required>
+        @if (buyForm.controls['name'].hasError('required')) {
+        <mat-error>This field is required</mat-error>
+        }
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>No. of seats</mat-label>
+        <input matInput formControlName="seats" required>
+        @if (buyForm.controls['seats'].hasError('required')) {
+        <mat-error>Please pick a seat</mat-error>
+        }
+      </mat-form-field>
+    </form>
+    <button mat-button (click)="buy()">buy ticket</button>
+
+    }
+
+  </mat-step>
+  <mat-step>
+    payment method with qr code
+  </mat-step>
+</mat-vertical-stepper>

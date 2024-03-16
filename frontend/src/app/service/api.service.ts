@@ -10,5 +10,14 @@ export class ApiService {
   getShowList(): Promise<object | undefined> {
     return this.httpClient.get(this.endpoint + "/shows").toPromise();
   }
+  getShowInfo(id: string): Promise<object | undefined> {
+    return this.httpClient.get(this.endpoint + `/show/${id}`).toPromise();
+  }
+  buy(showId: string, seatId: string, contactname: string): Promise<object | undefined> {
+    return this.httpClient.post(this.endpoint + `/show/${showId}/ticket/${seatId}/buy`, {
+      contactname: contactname
+    }
+    ).toPromise();
+  }
 
 }
