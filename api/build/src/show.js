@@ -10,24 +10,24 @@ var show;
                 client_id: process.env.showmanager_client_id,
                 client_email: process.env.showmanager_client_email,
                 project_id: process.env.showmanager_project_id,
-                private_key: process.env.showmanager_private_key ? process.env.showmanager_private_key.replace(/\\n/g, '\n') : undefined
+                private_key: process.env.showmanager_private_key ? process.env.showmanager_private_key.split(String.raw `\n`).join('\n') : undefined
             },
             scopes: ['https://www.googleapis.com/auth/spreadsheets']
         });
         const service = googleapis_1.google.sheets({ version: 'v4', auth });
         return service.spreadsheets.values.get({
             spreadsheetId: id,
-            // range: "booklist!B2:B3",
         });
     }
     show.get = get;
     function list() {
+        console.log(process.env.showmanager_private_key);
         var auth = new googleapis_1.google.auth.GoogleAuth({
             credentials: {
                 client_id: process.env.showmanager_client_id,
                 client_email: process.env.showmanager_client_email,
                 project_id: process.env.showmanager_project_id,
-                private_key: process.env.showmanager_private_key ? process.env.showmanager_private_key.replace(/\\n/g, '\n') : undefined
+                private_key: process.env.showmanager_private_key ? process.env.showmanager_private_key.split(String.raw `\n`).join('\n') : undefined
             },
             scopes: ['https://www.googleapis.com/auth/drive']
         });

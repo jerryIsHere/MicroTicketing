@@ -10,14 +10,13 @@ export namespace show {
                 client_id: process.env.showmanager_client_id,
                 client_email: process.env.showmanager_client_email,
                 project_id: process.env.showmanager_project_id,
-                private_key: process.env.showmanager_private_key
+                private_key: process.env.showmanager_private_key ? process.env.showmanager_private_key.split(String.raw`\n`).join('\n') : undefined
             },
             scopes: ['https://www.googleapis.com/auth/spreadsheets']
         })
         const service = google.sheets({ version: 'v4', auth });
         return service.spreadsheets.values.get({
             spreadsheetId: id,
-            // range: "booklist!B2:B3",
         })
 
     }
@@ -27,7 +26,7 @@ export namespace show {
                 client_id: process.env.showmanager_client_id,
                 client_email: process.env.showmanager_client_email,
                 project_id: process.env.showmanager_project_id,
-                private_key: process.env.showmanager_private_ke
+                private_key: process.env.showmanager_private_key ? process.env.showmanager_private_key.split(String.raw`\n`).join('\n') : undefined
             },
             scopes: ['https://www.googleapis.com/auth/drive']
         })
