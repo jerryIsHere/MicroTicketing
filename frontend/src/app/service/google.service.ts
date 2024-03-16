@@ -48,6 +48,7 @@ export class GoogleService {
     })
   }
   setShowInfo(result: google.picker.ResponseObject, showInfo: ShowInfo): Promise<gapi.client.HttpRequestFulfilled<any>> {
+    console.log(showInfo)
     return new Promise((resolve, reject) => {
       gapi.client.request({
         method: 'POST',
@@ -85,7 +86,7 @@ export class GoogleService {
               {
                 "range": `microticketing-seats!A1:A${showInfo.seats}`,
                 "majorDimension": "COLUMNS",
-                "values": [[...Array(showInfo.seats).keys()].map(i => i + 1)]
+                "values": [[...Array(Number(showInfo.seats)).keys()].map(i => i + 1)]
               }
             ]
           }
