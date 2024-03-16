@@ -4,12 +4,12 @@
 
     }
     @else {
+    <ng-template matStepLabel>
+      Show date : {{_show.date}}
+    </ng-template>
     <form [formGroup]="buyForm">
-      <ng-template matStepLabel>
-        Show date : {{_show.date}}
-      </ng-template>
       <mat-form-field>
-        <mat-label>Time of event</mat-label>
+        <mat-label>Your contact</mat-label>
         <input matInput formControlName="name" required>
         @if (buyForm.controls['name'].hasError('required')) {
         <mat-error>This field is required</mat-error>
@@ -17,9 +17,9 @@
       </mat-form-field>
       <br>
       <mat-form-field>
-        <mat-label>No. of seats</mat-label>
-        <input matInput formControlName="seats" required>
-        @if (buyForm.controls['seats'].hasError('required')) {
+        <mat-label>Choose your seat</mat-label>
+        <input matInput formControlName="seat" required>
+        @if (buyForm.controls['seat'].hasError('required')) {
         <mat-error>Please pick a seat</mat-error>
         }
       </mat-form-field>
