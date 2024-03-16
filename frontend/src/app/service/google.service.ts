@@ -57,6 +57,7 @@ export class GoogleService {
           "requests": [{
             "addSheet": {
               "properties": {
+                "sheetId": "99",
                 "title": "microticketing-info",
               }
             }
@@ -64,6 +65,7 @@ export class GoogleService {
           {
             "addSheet": {
               "properties": {
+                "sheetId": "999",
                 "title": "microticketing-seats",
               }
             }
@@ -98,7 +100,13 @@ export class GoogleService {
               "requests": [{
                 "addProtectedRange": {
                   protectedRange: {
-                    "range": "microticketing-info!A1",
+                    "range": {
+                      "sheetId": "99",
+                      "startRowIndex": 1,
+                      "endRowIndex": 1,
+                      "startColumnIndex": 1,
+                      "endColumnIndex": 1
+                    },
                     "namedRangeId": "info-header",
                     "description": "this is a form from microticketing",
                   }
@@ -107,7 +115,13 @@ export class GoogleService {
               {
                 "addProtectedRange": {
                   protectedRange: {
-                    "range": `microticketing-seats!A1:A${showInfo.seats}`,
+                    "range": {
+                      "sheetId": "999",
+                      "startRowIndex": 1,
+                      "endRowIndex": showInfo.seats,
+                      "startColumnIndex": 1,
+                      "endColumnIndex": 1
+                    },
                     "namedRangeId": "seats-id",
                     "description": "this column is the seats id from microticketing",
                   }
