@@ -21,10 +21,6 @@ var corsOptions = {
 api.use(cors(corsOptions))
 const port = process.env.PORT || 3000;
 
-var googleapis_crediential = {
-  clientId: process.env.oauth_web_client_id,
-  clientSecret: process.env.oauth_web_client_secret,
-}
 
 
 
