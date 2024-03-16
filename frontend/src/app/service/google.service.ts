@@ -91,7 +91,34 @@ export class GoogleService {
             ]
           }
         }).then(function (response) {
-          resolve(response)
+          gapi.client.request({
+            method: 'POST',
+            path: `https://sheets.googleapis.com/v4/spreadsheets/${result.docs[0].id}:batchUpdate`,
+            body: {
+              "requests": [{
+                "protectedRange": {
+                  "range": {
+                    "range": "microticketing-info!A1",
+                  },
+                  "namedRangeId": "info-header",
+                  "description": "this is a form from microticketing",
+                }
+              },
+              {
+                "protectedRange": {
+                  "range": {
+                    "range": `microticketing-seats!A1:A${showInfo.seats}`,
+                  },
+                  "namedRangeId": "seats-id",
+                  "description": "this column is the seats id from microticketing",
+                }
+              },
+              ]
+            }
+          }).then((response) => {
+            resolve(response)
+          }).catch((reason) => reject(reason));
+
         }).catch((reason) => {
           reject(reason);
         })
