@@ -1,35 +1,40 @@
-<mat-vertical-stepper linear>
+<mat-vertical-stepper linear #stepper>
   <mat-step [stepControl]="buyForm">
-    @if(_show == null){
-
-    }
-    @else {
     <ng-template matStepLabel>
+      @if(_show == null){
+      loading
+      }
+      @else {
       Show date : {{_show.info.date}}
+      }
     </ng-template>
-    <form [formGroup]="buyForm">
-      <mat-form-field>
-        <mat-label>Your contact</mat-label>
-        <input matInput formControlName="name" required>
-        @if (buyForm.controls['name'].hasError('required')) {
-        <mat-error>This field is required</mat-error>
-        }
-      </mat-form-field>
-      <br>
-      <mat-form-field>
-        <mat-label>Choose your seat</mat-label>
-        <input matInput formControlName="seat" required>
-        @if (buyForm.controls['seat'].hasError('required')) {
-        <mat-error>Please pick a seat</mat-error>
-        }
-      </mat-form-field>
-    </form>
-    <button mat-button (click)="buy()">buy ticket</button>
-
-    }
-
+    <ng-container ng-show="_show">
+      <form [formGroup]="buyForm">
+        <mat-form-field>
+          <mat-label>Your contact</mat-label>
+          <input matInput formControlName="name" required>
+          @if (buyForm.controls['name'].hasError('required')) {
+          <mat-error>This field is required</mat-error>
+          }
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+          <mat-label>Choose your seat</mat-label>
+          <mat-select formControlName="seat">
+            @for (seat of _show.seats; track seat) {
+            <mat-option [value]="seat">{{seat}}</mat-option>
+            }
+            @if (buyForm.controls['seat'].hasError('required')) {
+            <mat-error>Please pick a seat</mat-error>
+            }
+          </mat-select>
+        </mat-form-field>
+      </form>
+      <button mat-button (click)="buy()">buy ticket</button>
+    </ng-container>
   </mat-step>
   <mat-step>
-    payment method with qr code
+    the ticket is baught
+    [payment method with qr code]
   </mat-step>
 </mat-vertical-stepper>

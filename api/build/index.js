@@ -24,6 +24,7 @@ var corsOptions = {
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 api.use((0, cors_1.default)(corsOptions));
+api.use(express_1.default.json());
 api.get("/show/:showId", (req, res) => {
     var showPromise = show_1.show.get(req.params.showId).then((result) => {
         res.send(result);

@@ -19,41 +19,42 @@ export namespace ticket {
             spreadsheetId: showId,
             range: 'microticketing-seats'
         })).data
-        var avaliableSeatIds = seatsInfo.values?.filter(row => row.length < 2 || row[1] == "" || row[1] == undefined).map(row => row[0])
-        if (Array.isArray(avaliableSeatIds) && avaliableSeatIds.includes(seatId)) {
-            var sheet: string | undefined = seatsInfo.range?.split("!")[0]
-            var startRowMatch: RegExpMatchArray | undefined | null = seatsInfo.range?.split("!")[1].split(":")[0].match(/\d+/)
-            var row: number | undefined = seatsInfo.values?.map(row => row[0]).findIndex(value => value == seatId);
-            if (sheet && startRowMatch && row && startRowMatch["input"] && startRowMatch["0"]) {
-                let targetcoor = Number(startRowMatch["0"]) + row
-                var range = sheet + '!' + 'B' + targetcoor
-                if (range) {
-                    return new Promise((resolve, reject) => {
-                        service.spreadsheets.values.update({
-                            spreadsheetId: showId,
-                            range: range,
-                            valueInputOption: "RAW",
-                            requestBody: {
-                                "range": range,
-                                "majorDimension": "ROWS",
-                                "values": [
-                                    [contactname]
-                                ]
+        if (seatsInfo.values && seatsInfo.range) {
+            var avaliableSeatIds = seatsInfo.values.filter(row => row.length < 2 || row[1] == "" || row[1] == undefined).map(row => row[0])
+            if (Array.isArray(avaliableSeatIds) && avaliableSeatIds.includes(seatId)) {
+                var sheet: string | undefined = seatsInfo.range.split("!")[0]
+                var startRowMatch: RegExpMatchArray | null = seatsInfo.range.split("!")[1].split(":")[0].match(/\d+/)
+                var row: number = seatsInfo.values.map(row => row[0]).findIndex(value => value == seatId);
+                if (sheet && startRowMatch) {
+                    let targetcoor = Number(startRowMatch["0"]) + row
+                    var range = sheet + '!' + 'B' + targetcoor
+                    if (range) {
+                        return new Promise((resolve, reject) => {
+                            service.spreadsheets.values.update({
+                                spreadsheetId: showId,
+                                range: range,
+                                valueInputOption: "RAW",
+                                requestBody: {
+                                    "range": range,
+                                    "majorDimension": "ROWS",
+                                    "values": [
+                                        [contactname]
+                                    ]
 
-                            }
-                        }).then((result) => {
-                            resolve({
-                                success: false,
-                                message: "seat not avaliable"
-                            })
-                        }).catch((reason) => {
-                            reject({
-                                success: false,
-                                message: "reason"
+                                }
+                            }).then((result) => {
+                                resolve({
+                                    success: true,
+                                })
+                            }).catch((reason) => {
+                                reject({
+                                    success: false,
+                                    message: "reason"
+                                })
                             })
                         })
-                    })
 
+                    }
                 }
             }
         }

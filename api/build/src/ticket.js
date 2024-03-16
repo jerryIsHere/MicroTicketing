@@ -14,7 +14,6 @@ const googleapis_1 = require("googleapis");
 var ticket;
 (function (ticket) {
     function get(showId, seatId, contactname) {
-        var _a, _b, _c, _d;
         return __awaiter(this, void 0, void 0, function* () {
             var auth = new googleapis_1.google.auth.GoogleAuth({
                 credentials: {
@@ -30,39 +29,40 @@ var ticket;
                 spreadsheetId: showId,
                 range: 'microticketing-seats'
             })).data;
-            var avaliableSeatIds = (_a = seatsInfo.values) === null || _a === void 0 ? void 0 : _a.filter(row => row.length < 2 || row[1] == "" || row[1] == undefined).map(row => row[0]);
-            if (Array.isArray(avaliableSeatIds) && avaliableSeatIds.includes(seatId)) {
-                var sheet = (_b = seatsInfo.range) === null || _b === void 0 ? void 0 : _b.split("!")[0];
-                var startRowMatch = (_c = seatsInfo.range) === null || _c === void 0 ? void 0 : _c.split("!")[1].split(":")[0].match(/\d+/);
-                var row = (_d = seatsInfo.values) === null || _d === void 0 ? void 0 : _d.map(row => row[0]).findIndex(value => value == seatId);
-                if (sheet && startRowMatch && row && startRowMatch["input"] && startRowMatch["0"]) {
-                    let targetcoor = Number(startRowMatch["0"]) + row;
-                    var range = sheet + '!' + 'B' + targetcoor;
-                    if (range) {
-                        return new Promise((resolve, reject) => {
-                            service.spreadsheets.values.update({
-                                spreadsheetId: showId,
-                                range: range,
-                                valueInputOption: "RAW",
-                                requestBody: {
-                                    "range": range,
-                                    "majorDimension": "ROWS",
-                                    "values": [
-                                        [contactname]
-                                    ]
-                                }
-                            }).then((result) => {
-                                resolve({
-                                    success: false,
-                                    message: "seat not avaliable"
-                                });
-                            }).catch((reason) => {
-                                reject({
-                                    success: false,
-                                    message: "reason"
+            if (seatsInfo.values && seatsInfo.range) {
+                var avaliableSeatIds = seatsInfo.values.filter(row => row.length < 2 || row[1] == "" || row[1] == undefined).map(row => row[0]);
+                if (Array.isArray(avaliableSeatIds) && avaliableSeatIds.includes(seatId)) {
+                    var sheet = seatsInfo.range.split("!")[0];
+                    var startRowMatch = seatsInfo.range.split("!")[1].split(":")[0].match(/\d+/);
+                    var row = seatsInfo.values.map(row => row[0]).findIndex(value => value == seatId);
+                    if (sheet && startRowMatch) {
+                        let targetcoor = Number(startRowMatch["0"]) + row;
+                        var range = sheet + '!' + 'B' + targetcoor;
+                        if (range) {
+                            return new Promise((resolve, reject) => {
+                                service.spreadsheets.values.update({
+                                    spreadsheetId: showId,
+                                    range: range,
+                                    valueInputOption: "RAW",
+                                    requestBody: {
+                                        "range": range,
+                                        "majorDimension": "ROWS",
+                                        "values": [
+                                            [contactname]
+                                        ]
+                                    }
+                                }).then((result) => {
+                                    resolve({
+                                        success: true,
+                                    });
+                                }).catch((reason) => {
+                                    reject({
+                                        success: false,
+                                        message: "reason"
+                                    });
                                 });
                             });
-                        });
+                        }
                     }
                 }
             }
