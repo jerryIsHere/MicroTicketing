@@ -83,7 +83,7 @@ export class GoogleService {
               },
 
               {
-                "range": `microticketing-seat!A1:A${showInfo.seats}`,
+                "range": `microticketing-seats!A1:A${showInfo.seats}`,
                 "majorDimension": "COLUMNS",
                 "values": [[...Array(showInfo.seats).keys()].map(i => i + 1)]
               }
