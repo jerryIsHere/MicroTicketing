@@ -78,7 +78,7 @@ export class GoogleService {
         Promise.all([
           gapi.load('client', () => {
             return gapi.client.init({
-              'clientId': 'https://www.googleapis.com/auth/drive.file',
+              'clientId': this.CLIENT_ID,
               'scope': 'https://www.googleapis.com/auth/drive.file',
             })
           }),
