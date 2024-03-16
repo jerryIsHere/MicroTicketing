@@ -96,21 +96,21 @@ export class GoogleService {
             path: `https://sheets.googleapis.com/v4/spreadsheets/${result.docs[0].id}:batchUpdate`,
             body: {
               "requests": [{
-                "protectedRange": {
-                  "range": {
+                "addProtectedRange": {
+                  protectedRange: {
                     "range": "microticketing-info!A1",
-                  },
-                  "namedRangeId": "info-header",
-                  "description": "this is a form from microticketing",
+                    "namedRangeId": "info-header",
+                    "description": "this is a form from microticketing",
+                  }
                 }
               },
               {
-                "protectedRange": {
-                  "range": {
+                "addProtectedRange": {
+                  protectedRange: {
                     "range": `microticketing-seats!A1:A${showInfo.seats}`,
-                  },
-                  "namedRangeId": "seats-id",
-                  "description": "this column is the seats id from microticketing",
+                    "namedRangeId": "seats-id",
+                    "description": "this column is the seats id from microticketing",
+                  }
                 }
               },
               ]
