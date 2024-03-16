@@ -29,6 +29,7 @@
       "google.accounts",
       "gapi",
       "gapi.drive",
+      "gapi.client.sheets-4"
     ],
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,

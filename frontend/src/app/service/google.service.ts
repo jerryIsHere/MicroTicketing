@@ -23,7 +23,7 @@ export class GoogleService {
   private apiScriptElement: HTMLScriptElement = document.createElement('script');
   private authScriptElement: HTMLScriptElement = document.createElement('script');
 
-  getAccessToFile(result: google.picker.ResponseObject): Promise<gapi.client.HttpRequestFulfilled<any>> {
+  getAccessToFile(result: google.picker.ResponseObject): Promise<gapi.client.Response<any>> {
     return new Promise((resolve, reject) => {
       gapi.client.request({
         method: 'POST',
@@ -47,7 +47,7 @@ export class GoogleService {
       });
     })
   }
-  setShowInfo(result: google.picker.ResponseObject, showInfo: ShowInfo): Promise<gapi.client.HttpRequestFulfilled<any>> {
+  setShowInfo(result: google.picker.ResponseObject, showInfo: ShowInfo): Promise<gapi.client.Response<any>> {
     return new Promise((resolve, reject) => {
       gapi.client.request({
         method: 'POST',
@@ -70,7 +70,30 @@ export class GoogleService {
           ]
         }
       }).then(function (response) {
-        resolve(response)
+        gapi.client.request({
+          method: 'POST',
+          path: `https://sheets.googleapis.com/v4/spreadsheets/${result.docs[0].id}/values:batchUpdate`,
+          body: {
+            "valueInputOption": "RAW",
+            "data": [
+              {
+                "range": "microticketing-info!A1:B1",
+                "majorDimension": "COLUMNS",
+                "values": [["date"], [showInfo.date]]
+              },
+
+              {
+                "range": `microticketing-seat!A1:A${showInfo.seats}`,
+                "majorDimension": "COLUMNS",
+                "values": [[...Array(showInfo.seats).keys()].map(i => i + 1)]
+              }
+            ]
+          }
+        }).then(function (response) {
+          resolve(response)
+        }).catch((reason) => {
+          reject(reason);
+        })
       }, function (reason) {
         reject(reason)
       });
