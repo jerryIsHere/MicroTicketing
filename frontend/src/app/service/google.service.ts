@@ -107,7 +107,6 @@ export class GoogleService {
                       "startColumnIndex": 1,
                       "endColumnIndex": 1
                     },
-                    "namedRangeId": "info-header",
                     "description": "this is a form from microticketing",
                   }
                 }
@@ -122,7 +121,6 @@ export class GoogleService {
                       "startColumnIndex": 1,
                       "endColumnIndex": 1
                     },
-                    "namedRangeId": "seats-id",
                     "description": "this column is the seats id from microticketing",
                   }
                 }
